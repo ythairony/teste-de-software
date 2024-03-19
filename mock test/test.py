@@ -47,10 +47,29 @@ class ServicoVeiculoTest(unittest.TestCase):
   def test_isEmPosseDaLoja_4(self):
     # teste: com data de compra e sem data de venda
     placa = "NNX2015"
-    self.servico.daoCompra.getUltimaData.return_value = datetime.datetime(2022, 10, 21)
+    self.servico.daoCompra.getUltimaData.return_value = datetime.datetime(2022, 10 ,21)
     self.servico.daoVenda.getUltimaData.return_value = datetime.datetime(2021, 10, 22)
     em_posse = self.servico.isEmPosseDaLoja(placa)
-    self.assertTrue(em_posse)    
+    self.assertTrue(em_posse)
+
+  
+  # Aula de testes de MOCK prática
+  def test_CompraNaoFoiSalva(self):
+    placa = "ADS2O24"
+    self.servico.daoCompra.getUltimaData.return_value = datetime.datetime(2022, 10, 2)
+
+    foi_comprado = self.servico.compra(placa, datetime.datetime(2022, 10, 2))
+
+    self.assertFalse(foi_comprado)
+
+
+  def test_CompraFoiSalva(self):
+    placa = "ADS2O24"
+    self.servico.daoCompra.getUltimaData.return_value = None
+
+    foi_comprado = self.servico.compra(placa, None)
+
+    self.assertTrue(foi_comprado) 
 
 if __name__ == '__main__':
   unittest.main()
