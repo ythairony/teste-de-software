@@ -1,8 +1,11 @@
 # tests.py
 
+import datetime
 import unittest
 from unittest.mock import Mock
-import modelo, datetime
+
+import modelo
+
 
 class ServicoVeiculoTest(unittest.TestCase):
 
@@ -54,22 +57,53 @@ class ServicoVeiculoTest(unittest.TestCase):
 
   
   # Aula de testes de MOCK prática
-  def test_CompraNaoFoiSalva(self):
+  def test_CompraFeitaComDataCompraNula(self):
+    # compra realizado com carro sem registro de compra e venda
     placa = "ADS2O24"
-    self.servico.daoCompra.getUltimaData.return_value = datetime.datetime(2022, 10, 2)
+    data_compra = datetime.datetime(2024, 3, 21)
+    self.servico.daoCompra.getUltimaData.return_value = None
 
-    foi_comprado = self.servico.compra(placa, datetime.datetime(2022, 10, 2))
+    foi_comprado = self.servico.compra(placa, data_compra)
+
+    self.assertTrue(foi_comprado)
+
+
+  def test_CompraNaoFeitaComDataCompra(self):
+    # compra realizado com carro com registro de compra e sem registro de venda
+    placa = "ADS2O24"
+    data_compra = datetime.datetime(2024, 3, 21)
+    self.servico.daoCompra.getUltimaData.return_value = datetime.datetime(2022, 10 ,21)
+    self.servico.daoVenda.getUltimaData.return_value = None
+
+    foi_comprado = self.servico.compra(placa, data_compra)
 
     self.assertFalse(foi_comprado)
 
 
-  def test_CompraFoiSalva(self):
+  def test_CompraFeitaComDataCompraMenor(self):
+    # compra realizado com carro com registro de compra menor que a venda
     placa = "ADS2O24"
-    self.servico.daoCompra.getUltimaData.return_value = None
+    data_compra = datetime.date(2024, 3, 21)
 
-    foi_comprado = self.servico.compra(placa, None)
+    self.servico.daoCompra.getUltimaData.return_value = datetime.datetime(2022, 10 ,21)
+    self.servico.daoVenda.getUltimaData.return_value = datetime.datetime(2022, 10, 31)
 
-    self.assertTrue(foi_comprado) 
+    foi_comprado = self.servico.compra(placa, data_compra)
+
+    self.assertTrue(foi_comprado)
+
+
+  def test_CompraNaoFeitaComDataCompraMaior(self):
+    # compra realizado com carro com registro de compra e venda
+    placa = "ADS2O24"
+    data_compra = datetime.date(2024, 3, 21)
+
+    self.servico.daoCompra.getUltimaData.return_value = datetime.datetime(2022, 10 ,31)
+    self.servico.daoVenda.getUltimaData.return_value = datetime.datetime(2022, 10, 21)
+
+    foi_comprado = self.servico.compra(placa, data_compra)
+
+    self.assertFalse(foi_comprado)
 
 if __name__ == '__main__':
   unittest.main()
