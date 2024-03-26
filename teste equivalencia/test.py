@@ -4,20 +4,21 @@ from model import Triangulo
 
 
 class TrianguloTest(unittest.TestCase):
+    # Se é triângulo válido
     def test_ehTriangulo(self):
         a, b, c = 10, 15, 20
         t = Triangulo(a, b, c)
 
         self.assertTrue(t.validarForma())
 
-
+    # Se triângulo não é válido
     def test_naoEhTriangulo(self):
         a, b, c = 10, 50, 20
         t = Triangulo(a, b, c)
 
         self.assertFalse(t.validarForma())
 
-
+    # Se ângulos forem menor que zero
     def test_anguloMenorQueZero(self):
         a,b,c = -1, -2, 3
 
