@@ -2,11 +2,6 @@
 import datetime
 
 class Triangulo:
-  
-    def __init__(self):
-        self.a = 0
-        self.b = 0
-        self.c = 0
     
     def __init__(self, a, b, c):
         self.a = a
@@ -35,7 +30,7 @@ class Triangulo:
     # Triângulo Isósceles: quaisquer dois lados iguais;
     def ehIsosceles(self):
         if(not self.ehEquilatero()):
-            if (self.a == self.b or self.a == self.c or self.b == self.c):
+            if ((self.a == self.b and self.a != self.c) or (self.a == self.c and self.a != self.b) or (self.b == self.c and self.a != self.b)):
                 return True
 
         return False   
