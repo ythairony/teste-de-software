@@ -31,7 +31,7 @@ class TrianguloEquilateroTest(unittest.TestCase):
         a, b, c = 10, 10, 10
         t = Triangulo(a,b,c)
 
-        self.assertTrue(t.ehEquilatero)
+        self.assertTrue(t.ehEquilatero())
 
 
     def test_naoEhEquilatero(self):
