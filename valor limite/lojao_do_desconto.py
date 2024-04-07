@@ -1,7 +1,7 @@
 class Desconto:
-    def __init__(self, valor: float, idade: int):
-        self.valor = valor
-        self.idade = idade
+    def __init__(self):
+        self.valor = 0
+        self.idade = 0
         self._desconto = 0
 
     '''
@@ -16,30 +16,30 @@ class Desconto:
     
 
     # Verifica se o valor é elegível a desconto
-    def _isElegivel(self):
-        if self.idade >= 0 and self.idade <= 24 and self.valor >= 250:
+    def _isElegivel(self, valor:float, idade:int):
+        if idade >= 0 and idade <= 24 and valor >= 250:
             return True
         return False
 
 
     # Calcula o desconto válido
-    def _calcularDesconto(self):
-        if self.idade <= 12:
+    def _calcularDesconto(self, idade):
+        if idade <= 12:
             self._desconto = 0.15
         
-        elif self.idade <= 18:
+        elif idade <= 18:
             self._desconto = 0.12
 
-        elif self.idade <= 21:
+        elif idade <= 21:
             self._desconto = 0.05
 
-        elif self.idade <= 24:
+        elif idade <= 24:
             self._desconto = 0.03
 
     
     # Valida se o desconto 
-    def _validarDesconto(self):
-        if self._isElegivel():
-            self._calcularDesconto()
-            valor_com_desconto = self.valor * (1 - self.desconto)
+    def _validarDesconto(self, valor:float, idade:int):
+        if self._isElegivel(valor, idade):
+            self._calcularDesconto(idade)
+            valor_com_desconto = valor * (1 - self._desconto)
             return valor_com_desconto
