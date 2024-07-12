@@ -11,3 +11,7 @@ class TestBuscaBinaria(unittest.TestCase):
     def test_nao_encontrado(self):
         arraytest = [1, 2, 3, 4, 5]
         self.assertFalse(busca_binaria(arraytest, 6))
+
+
+if __name__ == '__main__':
+    unittest.main()
